@@ -1,0 +1,11 @@
+{
+	"dailyiot": "dailyiot.s8sg.com",
+	"api_token": "DA1LY-1OT",
+	"port": 8080,
+	"url" : {
+		"public-url": "",
+		"ngrok": {
+			"ngrok-auth": ""
+		}
+	}
+}

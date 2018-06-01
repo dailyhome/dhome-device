@@ -1,0 +1,101 @@
+version: "3.3"
+
+environment:
+    # Your daily Iot platform url
+    DAILYIOT: "https://mydailyiot.platfomr.com"       
+    # A global identification for the device (for example sha of the rasp mac)
+    DEVICEID: "00F88D2EF5FD6B452FBC9534C6AF5B25E2B950E61E7147D500EC14CC6FBE55D2" 
+
+services:
+    # Rasp gateway (Required: route request to skillsi, register device)
+    rasp-gateway:
+        image:  s8sg/rasp-gateway:0.0.1
+        networks:
+            - device
+        environment:
+            faas_swarm_url: "http://faas-swarm:8080/"
+        deploy:
+            mode: global
+            replicas: 1
+            restart_policy:
+                condition: on-failure
+                delay: 5s
+                max_attempts: 20
+                window: 380s
+            placement:
+                constraints:
+                    - 'node.role == manager'
+                    - 'node.platform.os == linux'
+            resources:
+                limits:
+                    memory: 50M
+        secrets:
+            - DIOT_USER_TOKEN # It is used to register the device
+                            
+
+    # Docker Swarm provider (Required: install skills dynamically)
+    faas-swarm:
+        volumes:
+            - "/var/run/docker.sock:/var/run/docker.sock"
+        # ports:
+        #    - 8081:8080
+        image:  functions/faas-swarm:0.2.7
+        networks:
+            - device
+        environment:
+            read_timeout:  "300s"   # set both here, and on your functions
+            write_timeout: "300s"   # set both here, and on your functions
+            DOCKER_API_VERSION: "1.30"
+        deploy:
+            mode: global
+            replicas: 1
+            placement:
+                constraints:
+                    - 'node.role == manager'
+                    - 'node.platform.os == linux'
+            resources:
+                # limits:   # Enable if you want to limit memory usage
+                #     memory: 100M
+                reservations:
+                     memory: 100M
+            restart_policy:
+                condition: on-failure
+                delay: 5s
+                max_attempts: 20
+                window: 380s
+
+    # SKILLS : Skills that will run with the platform 
+    #            > Skill can later be installed from dailyiot platform once the 
+    #              device is registered
+    #            > Comment the below section if you want to install seperately 
+    switch:
+        image: s8sg/skill-switch:0.0.1
+        networks:
+            - device
+        volumes:
+            - type: bind
+              source: /sys
+              destination: /sys
+        deploy:
+            mode: global
+            replicas: 1
+            restart_policy:
+                condition: on-failure
+                delay: 5s
+                max_attempts: 20
+                window: 380s
+        environment:
+            # A list of GPIO pins based ordered on switch no.
+            # i.e.
+            # switch 1 -> gpio pin 2
+            # switch 2 -> gpio pin 3
+            # switch 8 -> gpio pin 9
+            # and so on
+            switch_pins: "[2, 3, 4, 17, 27, 22, 10, 9]"
+
+networks:
+    device:
+        driver: overlay
+        attachable: true
+        labels:
+          - "dailyiot=true"
