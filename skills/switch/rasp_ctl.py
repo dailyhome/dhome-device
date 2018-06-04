@@ -18,7 +18,7 @@ def root():
 
 @app.route('/enable')
 def enable():
-    socket = request.args.get('socket')
+    socket = request.args.get('value')
     if socket == 'all':
         for socket in range(1,9):
             relay_ctl.turnon(str(socket))
@@ -34,7 +34,7 @@ def enable():
 
 @app.route('/disable')
 def disable():
-    socket = request.args.get('socket')
+    socket = request.args.get('value')
     if socket == 'all':
         for socket in range(1,9):
             relay_ctl.turnoff(str(socket))
@@ -50,7 +50,7 @@ def disable():
 
 @app.route('/state')
 def state():
-    socket = request.args.get('socket')
+    socket = request.args.get('value')
     state = relay_ctl.state()
     if socket == 'all' or socket == None:
         return json.dumps(state)

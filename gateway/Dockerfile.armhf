@@ -4,13 +4,6 @@ WORKDIR /go/src/github.com/openfaas/faas/gateway
 
 COPY vendor         vendor
 
-COPY handlers       handlers
-COPY metrics        metrics
-COPY requests       requests
-COPY tests          tests
-COPY types          types
-COPY plugin  	    plugin
-COPY queue  	    queue
 COPY server.go      .
 
 RUN GOARM=7 CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o gateway .
@@ -24,6 +17,4 @@ ENV https_proxy     ""
 
 COPY --from=0 /go/src/github.com/openfaas/faas/gateway/gateway    .
 
-COPY assets     assets
-RUN sed -ie s/store.json/store-armhf.json/g /root/assets/script/funcstore.js
 CMD ["./gateway"]

@@ -6,14 +6,6 @@ WORKDIR /go/src/github.com/openfaas/faas/gateway
 
 COPY vendor         vendor
 
-COPY handlers       handlers
-COPY metrics        metrics
-COPY requests       requests
-COPY tests          tests
-
-COPY types          types
-COPY queue          queue
-COPY plugin         plugin
 COPY server.go      .
 
 # Run a gofmt and exclude all vendored code.
@@ -34,13 +26,9 @@ ENV https_proxy     ""
 
 
 COPY --from=build /go/src/github.com/openfaas/faas/gateway/gateway    .
-COPY assets     assets
 
 RUN chown -R app:app ./
 
 USER app
-
-# Patch to ARM64 store
-RUN sed -ie s/store.json/store-arm64.json/g /home/app/assets/script/funcstore.js
 
 CMD ["./gateway"]

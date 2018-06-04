@@ -1,22 +1,22 @@
 version: "3.3"
 
-environment:
-    # Your daily Iot platform url
-    DAILYIOT: "https://mydailyiot.platfomr.com"       
-    # A global identification for the device (for example sha of the rasp mac)
-    DEVICEID: "00F88D2EF5FD6B452FBC9534C6AF5B25E2B950E61E7147D500EC14CC6FBE55D2" 
-
 services:
     # Rasp gateway (Required: route request to skillsi, register device)
-    rasp-gateway:
-        image:  s8sg/rasp-gateway:0.0.1
+    device-gateway:
+        image:  s8sg/device-gateway:1.0.0
         networks:
             - device
         environment:
             faas_swarm_url: "http://faas-swarm:8080/"
+            # Your daily Iot platform url
+            DAILYIOT: "https://mydailyiot.platfomr.com"       
+            # A global identification for the device (for example sha of the raspberry pi mac)
+            DEVICEID: "00F88D2EF5FD6B452FBC9534C6AF5B25E2B950E61E7147D500EC14CC6FBE55D2"
+            # name of the skill that will be deployed
+            SKILLS: "[\"switch\"]"
+            DIOTTOKEN: "DA1LY-1OT"
         deploy:
             mode: global
-            replicas: 1
             restart_policy:
                 condition: on-failure
                 delay: 5s
@@ -29,8 +29,8 @@ services:
             resources:
                 limits:
                     memory: 50M
-        secrets:
-            - DIOT_USER_TOKEN # It is used to register the device
+#        secrets:
+#            - DIOT_USER_TOKEN # It is used to register the device
                             
 
     # Docker Swarm provider (Required: install skills dynamically)
@@ -48,7 +48,6 @@ services:
             DOCKER_API_VERSION: "1.30"
         deploy:
             mode: global
-            replicas: 1
             placement:
                 constraints:
                     - 'node.role == manager'
@@ -68,17 +67,19 @@ services:
     #            > Skill can later be installed from dailyiot platform once the 
     #              device is registered
     #            > Comment the below section if you want to install seperately 
+    # 
+    # NOTE: 
+    #  > Skill name is service name
+    #  > There can be atmost 1 type of skill
+    #  > There can be only one replica of a single skill
+    
     switch:
-        image: s8sg/skill-switch:0.0.1
+        # Dummy Switch
+        image: s8sg/skill-switch-dummy:1.0.0
         networks:
             - device
-        volumes:
-            - type: bind
-              source: /sys
-              destination: /sys
         deploy:
             mode: global
-            replicas: 1
             restart_policy:
                 condition: on-failure
                 delay: 5s
@@ -89,9 +90,8 @@ services:
             # i.e.
             # switch 1 -> gpio pin 2
             # switch 2 -> gpio pin 3
-            # switch 8 -> gpio pin 9
-            # and so on
-            switch_pins: "[2, 3, 4, 17, 27, 22, 10, 9]"
+            # switch 4 -> gpio pin 17
+            switch_pins: "[2, 3, 4, 17]"
 
 networks:
     device:
