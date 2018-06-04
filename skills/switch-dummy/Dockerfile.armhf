@@ -6,8 +6,8 @@ COPY vendor        vendor
 COPY server.go      .
 
 # Run a gofmt and exclude all vendored code.
-RUN test -z "$(gofmt -l $(find . -type f -name '*.go' -not -path "./vendor/*"))" \
-    && go test GOARM=7 $(go list ./... | grep -v integration | grep -v /vendor/ | grep -v /template/) -cover \
+RUN GOARM=7 test -z "$(gofmt -l $(find . -type f -name '*.go' -not -path "./vendor/*"))" \
+    && GOARM=7 go test $(go list ./... | grep -v integration | grep -v /vendor/ | grep -v /template/) -cover \
     && GOARM=7 CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o server .
 
 FROM alpine:3.7
@@ -18,8 +18,6 @@ RUN addgroup -S app \
 WORKDIR /home/app
 
 EXPOSE 8080
-ENV http_proxy      ""
-ENV https_proxy     ""
 
 COPY --from=build /go/src/github.com/dailyiot/diot_device/skills/server .
 RUN chown -R app:app ./

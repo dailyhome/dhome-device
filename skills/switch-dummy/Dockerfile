@@ -18,8 +18,6 @@ RUN addgroup -S app \
 WORKDIR /home/app
 
 EXPOSE 8080
-ENV http_proxy      ""
-ENV https_proxy     ""
 
 COPY --from=build /go/src/github.com/dailyiot/diot_device/skills/dummy/server .
 RUN chown -R app:app ./

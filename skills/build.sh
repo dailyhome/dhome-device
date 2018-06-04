@@ -32,4 +32,4 @@ then
     exit -1
 fi
 
-docker build -t s8sg/skill-switch:$eTAG ./switch -f ./switch/$dockerfile ./switch/ --no-cache
+docker build -t s8sg/skill-switch:$eTAG -f ./switch/$dockerfile ./switch/ --no-cache
