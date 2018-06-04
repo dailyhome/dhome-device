@@ -7,14 +7,18 @@ services:
         networks:
             - device
         environment:
-            faas_swarm_url: "http://faas-swarm:8080/"
             # Your daily Iot platform url
             DAILYIOT: "https://mydailyiot.platfomr.com"       
             # A global identification for the device (for example sha of the raspberry pi mac)
             DEVICEID: "00F88D2EF5FD6B452FBC9534C6AF5B25E2B950E61E7147D500EC14CC6FBE55D2"
+            # Device address that is reachable from the platform
+            DEVICEADDR: "http://mydiot.device1.com"
             # name of the skill that will be deployed
             SKILLS: "[\"switch\"]"
+            # Auth token for registration
             DIOTTOKEN: "DA1LY-1OT"
+            # URL for fass swarm
+            # faas_swarm_url: "http://faas-swarm:8080/"
         deploy:
             mode: global
             restart_policy:

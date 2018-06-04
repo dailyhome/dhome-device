@@ -19,9 +19,10 @@ var (
 )
 
 type RegistationInfo struct {
-	Method   string   `json: method`
-	DeviceID string   `json: deviceid`
-	Skills   []string `json: skills`
+	Method     string   `json: method`
+	DeviceID   string   `json: deviceid`
+	DeviceAddr string   `json: deviceaddr`
+	Skills     []string `json: skills`
 }
 
 type HealthStat struct {
@@ -100,6 +101,10 @@ func register() error {
 	token = os.Getenv("DIOTTOKEN")
 	if gatewayUrl == "" {
 		return fmt.Errorf("DIOTTOKEN can't be empty")
+	}
+	deviceId = os.Getenv("DEVICEADDR")
+	if deviceId == "" {
+		return fmt.Errorf("DEVICEADDR can't be empty")
 	}
 	skillsstr := os.Getenv("SKILLS")
 	if skillsstr != "" {
