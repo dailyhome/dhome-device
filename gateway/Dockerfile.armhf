@@ -14,7 +14,7 @@ RUN GOARM=7 test -z "$(gofmt -l $(find . -type f -name '*.go' -not -path "./vend
 FROM alpine:3.7
 WORKDIR /root/
 
-EXPOSE 8080
+EXPOSE 6107
 
 COPY --from=build /go/src/github.com/dailyiot/diot_device/gateway/gateway .
 

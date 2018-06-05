@@ -29,7 +29,7 @@ func enable(w http.ResponseWriter, r *http.Request) {
 
 func disable(w http.ResponseWriter, r *http.Request) {
 	value := getValue(r.URL)
-	state[value] = true
+	state[value] = false
 	data, _ := json.Marshal(state)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(data)

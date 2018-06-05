@@ -17,7 +17,7 @@ RUN addgroup -S app \
 
 WORKDIR /home/app
 
-EXPOSE 8080
+EXPOSE 6107
 
 COPY --from=build /go/src/github.com/dailyiot/diot_device/gateway/gateway .
 

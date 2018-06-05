@@ -6,4 +6,6 @@ if ! [ -x "$(command -v docker)" ]; then
   exit 1
 fi
 
+./shutdown.sh
+
 docker stack deploy --compose-file docker-compose.yml diotdevice

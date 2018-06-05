@@ -16,18 +16,19 @@ var (
 	deviceId   string
 	skills     []string
 	token      string
+	deviceAddr string
 )
 
 type RegistationInfo struct {
-	Method     string   `json: method`
-	DeviceID   string   `json: deviceid`
-	DeviceAddr string   `json: deviceaddr`
-	Skills     []string `json: skills`
+	Method     string   `json:"method"`
+	DeviceID   string   `json:"deviceid"`
+	DeviceAddr string   `json:"deviceaddr"`
+	Skills     []string `json:"skills"`
 }
 
 type HealthStat struct {
-	Status      bool            `json: status`
-	SkillStatus map[string]bool `json: skills`
+	Status      bool            `json:"status"`
+	SkillStatus map[string]bool `json:"skills"`
 }
 
 func validSkill(skill string) bool {
@@ -41,6 +42,18 @@ func validSkill(skill string) bool {
 
 // Get device info with health data
 func Device(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	health := HealthStat{}
+	health.SkillStatus = make(map[string]bool)
+
+	//  TODO: check skill health
+	for _, name := range skills {
+		health.SkillStatus[name] = true
+	}
+
+	health.Status = true
+	data, _ := json.Marshal(health)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write(data)
 }
 
 // Get device Health info
@@ -70,21 +83,26 @@ func Skill(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	}
 	value := ps.ByName("value")
 
+	log.Printf(fmt.Sprintf("Request received for skill: %s, method: %s and value: %s", skill, method, value))
+
 	client := &http.Client{}
 	req, _ := http.NewRequest("GET", "http://"+skill+":8080/"+method+"?value="+value, nil)
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("token", token)
 	resp, reqerr := client.Do(req)
 	if reqerr != nil {
+		log.Printf("failed to perform skill req, error: %v", reqerr)
 		http.Error(w, fmt.Sprintf("failed to perform skill req, error: %v", reqerr), http.StatusInternalServerError)
 		return
 	}
 	defer resp.Body.Close()
 	body, readerr := ioutil.ReadAll(resp.Body)
 	if readerr != nil {
+		log.Printf("failed to perform skill req, error: %v", readerr)
 		http.Error(w, fmt.Sprintf("failed to perform skill req, error: %v", readerr), http.StatusInternalServerError)
 		return
 	}
+	log.Printf("Skill response: %s", string(body))
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(body)
 }
@@ -102,8 +120,8 @@ func register() error {
 	if gatewayUrl == "" {
 		return fmt.Errorf("DIOTTOKEN can't be empty")
 	}
-	deviceId = os.Getenv("DEVICEADDR")
-	if deviceId == "" {
+	deviceAddr = os.Getenv("DEVICEADDR")
+	if deviceAddr == "" {
 		return fmt.Errorf("DEVICEADDR can't be empty")
 	}
 	skillsstr := os.Getenv("SKILLS")
@@ -113,13 +131,14 @@ func register() error {
 			return fmt.Errorf("failed to unmarshal device skills, error: %v", jsonerr)
 		}
 	}
-	info := RegistationInfo{DeviceID: deviceId, Skills: skills, Method: "register"}
+	info := RegistationInfo{DeviceID: deviceId, Skills: skills, Method: "register", DeviceAddr: deviceAddr}
 	js, jserr := json.Marshal(info)
 	if jserr != nil {
 		return fmt.Errorf("failed to marshal registration, error: %v", jserr)
 	}
 	client := &http.Client{}
 	req, _ := http.NewRequest("POST", gatewayUrl, bytes.NewBuffer([]byte(js)))
+	req.Header.Add("Accept", "application/json")
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("token", token)
 	resp, reqerr := client.Do(req)
@@ -137,12 +156,14 @@ func main() {
 	router := httprouter.New()
 	router.GET("/", Device)
 	router.GET("/health", Health)
-	router.POST("/skill/:name/:method/:value", Skill)
+	router.GET("/skill/:name/:method/:value", Skill)
 
 	err := register()
 	if err != nil {
 		log.Fatal("Failed to register device with diot platform, error: ", err)
 	}
 
-	log.Fatal(http.ListenAndServe(":8080", router))
+	log.Printf("Device registered successfully")
+
+	log.Fatal(http.ListenAndServe(":6107", router))
 }

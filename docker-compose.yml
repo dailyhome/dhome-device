@@ -6,6 +6,8 @@ services:
         image:  s8sg/device-gateway:1.0.0
         networks:
             - device
+        ports:
+            - 6107:6107
         environment:
             # Your daily Iot platform url
             DAILYIOT: "https://mydailyiot.platfomr.com"       
