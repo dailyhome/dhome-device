@@ -29,7 +29,7 @@ echo Building Skill s8sg/skill-switch:$eTAG
 if [ "$arch" != "armv7l" ]
 then
     echo need armhf platform to build the skill switch
-    exit -1
+    exit 1
 fi
 
 docker build -t s8sg/skill-switch:$eTAG -f ./switch/$dockerfile ./switch/ --no-cache
