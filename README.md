@@ -1,7 +1,7 @@
 # diot_device
 bootstraps your dailyiot device 
 
-#### Getting Started
+### Getting Started
 Define the device unique identifier by editing `deviceid` file 
 ```
 DEVICEID=MyRasp
@@ -11,7 +11,7 @@ Deploy the device stack
 ./deploy.sh
 ```
 
-#### Overview of diot_device
+### Overview of diot_device
 1. Register device to the dailyiot platform
 2. Provide gateway to route request to skills and provide health data
 3. Deploy and manages skill on the go
@@ -28,7 +28,7 @@ Deploy the device stack
 </p>
 
 
-##### TODO
+#### TODO
 - [X] Implement switch skill
 - [X] Implement dummy skill
 - [X] Automatic device registration on Startup
