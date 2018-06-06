@@ -1,5 +1,5 @@
-# rasp_ctl
-bootstraps your raspberry pi
+# diot_device
+bootstraps your dailyiot device 
 
 #### Getting Started
 Define the device unique identifier by editing `deviceid` file 
