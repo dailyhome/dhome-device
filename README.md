@@ -1,6 +1,16 @@
 # rasp_ctl
 bootstraps your raspberry pi
 
+#### Getting Started
+Define the device unique identifier by editing `deviceid` file 
+```
+DEVICEID=MyRasp
+```
+Deploy the device stack
+```
+./deploy.sh
+```
+
 #### Overview of diot_device
 1. Register device to the dailyiot platform
 2. Provide gateway to route request to skills and provide health data
@@ -22,6 +32,7 @@ bootstraps your raspberry pi
 - [X] Implement switch skill
 - [X] Implement dummy skill
 - [X] Automatic device registration on Startup
+- [X] Support local deployment of multiple devices for testing
 - [ ] Optional Automatic ngrok tunnel creation on Startup
 - [ ] Health Checkup for Skills
 - [ ] Change password and token to docker secrets
