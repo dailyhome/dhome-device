@@ -6,19 +6,22 @@ services:
         image:  s8sg/device-gateway:1.0.0
         networks:
             - device
+            - func_functions
         ports:
             - 6107:6107
         environment:
-            # Your daily Iot platform url
-            DAILYIOT: "https://mydailyiot.platfomr.com"       
+            # Your daily Iot gateway URI
+            # (change it when deployed seperately)
+            DAILYIOT: "http://diot-gateway:8080"       
             # A global identification for the device (for example sha of the raspberry pi mac)
             DEVICEID: "00F88D2EF5FD6B452FBC9534C6AF5B25E2B950E61E7147D500EC14CC6FBE55D2"
-            # Device address that is reachable from the platform
-            DEVICEADDR: "http://mydiot.device1.com"
+            # Device address that is reachable from the platform 
+            # (change it when deployed seperately)
+            DEVICEADDR: "http://device-gateway:6107"
             # name of the skill that will be deployed
             SKILLS: "[\"switch\"]"
-            # Auth token for registration
-            DIOTTOKEN: "DA1LY-1OT"
+            # The API token that need to be used to authenticate user and used as cookie
+            DIOTTOKEN: "Just-because-something-doesnt-do-what-you-planned-it-to-do-doesnt-mean-its-useless"
             # URL for fass swarm
             # faas_swarm_url: "http://faas-swarm:8080/"
         deploy:
@@ -105,3 +108,7 @@ networks:
         attachable: true
         labels:
           - "dailyiot=true"
+
+    func_functions:
+        external:
+            name: func_functions
