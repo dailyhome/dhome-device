@@ -6,6 +6,10 @@ if ! [ -x "$(command -v docker)" ]; then
   exit 1
 fi
 
-./shutdown.sh
+. deviceid 
 
-docker stack deploy --compose-file docker-compose.yml diotdevice
+export DEVICE_ID=${DEVICEID}
+
+docker network create -d overlay --attachable ${DEVICE_ID}
+
+docker stack deploy --compose-file docker-compose.yml ${DEVICE_ID}

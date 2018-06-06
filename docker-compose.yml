@@ -6,18 +6,17 @@ services:
         image:  s8sg/device-gateway:1.0.0
         networks:
             - device
-            - func_functions
+            - func_functions # For Dev Environment (should be avoided in production)
         ports:
             - 6107:6107
         environment:
             # Your daily Iot gateway URI
-            # (change it when deployed seperately)
             DAILYIOT: "http://diot-gateway:8080"       
             # A global identification for the device (for example sha of the raspberry pi mac)
-            DEVICEID: "00F88D2EF5FD6B452FBC9534C6AF5B25E2B950E61E7147D500EC14CC6FBE55D2"
+            DEVICEID: "${DEVICE_ID}"
             # Device address that is reachable from the platform 
-            # (change it when deployed seperately)
-            DEVICEADDR: "http://device-gateway:6107"
+            # (change it to device public url when device not in func_functions)
+            DEVICEADDR: "http://${DEVICE_ID}_device-gateway:6107"
             # name of the skill that will be deployed
             SKILLS: "[\"switch\"]"
             # The API token that need to be used to authenticate user and used as cookie
@@ -103,12 +102,12 @@ services:
             switch_pins: "[2, 3, 4, 17]"
 
 networks:
+    # Use docker network created fot that specific device
     device:
-        driver: overlay
-        attachable: true
-        labels:
-          - "dailyiot=true"
+        external:
+            name: ${DEVICE_ID}
 
+    # For dev env (should not be on func_functions on production)
     func_functions:
         external:
             name: func_functions

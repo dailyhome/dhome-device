@@ -1,3 +1,7 @@
 #!/bin/bash
 
-docker stack rm diotdevice
+. deviceid 
+
+docker stack rm ${DEVICEID}
+
+docker network rm ${DEVICEID}
