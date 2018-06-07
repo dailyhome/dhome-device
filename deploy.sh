@@ -10,6 +10,10 @@ fi
 
 export DEVICE_ID=${DEVICEID}
 
-docker network create -d overlay --attachable ${DEVICE_ID}
+# Create network by Device ID
+[ ! "$(docker network ls | grep ${DEVICE_ID})" ] && docker network create -d overlay --attachable ${DEVICE_ID}
+# Create network func_function if doesn't exists
+[ ! "$(docker network ls | grep func_functions)" ] && docker network create -d overlay --attachable func_functions
 
+# Deploy the docker stack with device name
 docker stack deploy --compose-file docker-compose.yml ${DEVICE_ID}
