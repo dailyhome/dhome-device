@@ -94,6 +94,8 @@ services:
                 max_attempts: 20
                 window: 380s
         environment:
+            # No of switch provided by the device
+            switch_nos: 4
             # A list of GPIO pins based ordered on switch no.
             # i.e.
             # switch 1 -> gpio pin 2
