@@ -19,7 +19,7 @@ WORKDIR /home/app
 
 EXPOSE 8080
 
-COPY --from=build /go/src/github.com/dailyiot/diot_device/skills/server .
+COPY --from=build /go/src/github.com/dailyiot/diot_device/skills/dummy/server .
 RUN chown -R app:app ./
 USER app
 

@@ -24,7 +24,7 @@ bootstraps your dailyiot device stack
 > Alternatively,    
 > You can deploy the dummy implementation locally by running the [dummy skills](https://github.com/dailyiot/skills/blob/master/README.md#dummy)
    
-Define the device unique identifier by editing `deviceid` file 
+Define the device unique identifier by editing `configuration` file 
 ```bash
 DEVICEID=MyRasp
 ```
@@ -41,37 +41,34 @@ Deploy the device stack
 
 ### Configuration
 Device stack can be deployed along with daily-iot platform in same swarm cluster otherwise independently   
-It uses same network as of openfaas functions `func_functions` for device-gateway and create one based on `DEVICEID`
+It uses same network as of openfaas functions `func_functions` for device-gateway and create a private network based on the `DEVICEID`
 
 #### Run on independent swarm cluster
 
-For a independent swarm cluster daily-iot platform address can be defined by changing `docker-compose.yml` file
+For a independent swarm cluster daily-iot platform address and device address need to be defined by changing `docker-compose.yml` file:    
+Change the dailyiot gateway address  
 ```yaml
 DAILYIOT: "http://your-openfaas/function/diot-gateway"
 ```
-and 
-and changing the DEVICEADDR to the public address
+and    
+Change the public address of your device  
 ```yaml
-DEVICEADDR: "http://<device_public_ip>:6107"
+DEVICEADDR: "http://<device_public_address>"
 ```
     
 #### Run multiple device stack in same host
 
-Device stack Creates and Run on a swarm overlay network defined in `deviceid` file
+Device stack Creates and Run on a swarm overlay network based on the `DEVICEID`
 ```bash
-DEVICEID=MyRasp
+DEVICEID=MyRasp2
 ```
 You can run multiple device stack in a same host by changing the `DEVICEID` and 
-exposed `port` and `DEVICEADDR` in `docker-compose.yml` file
-```yaml
-ports:
-    - 6207:6107
+exposed `PORT` in `configuration` file
+```bash
+PORT=6207
 ```
-```yaml
-DEVICEADDR: "http://${DEVICE_ID}_device-gateway:6207"
-```
-
-
+    
+    
 #### TODO
 - [X] Implement switch skill
 - [X] Implement dummy skill

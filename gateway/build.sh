@@ -12,4 +12,4 @@ fi
 
 echo Building s8sg/device-gateway:$eTAG
 
-docker build -t s8sg/device-gateway:$eTAG . -f $dockerfile --no-cache
+docker build -t s8sg/device-gateway:$eTAG . -f $dockerfile

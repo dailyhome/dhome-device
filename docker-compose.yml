@@ -8,7 +8,7 @@ services:
             - device
             - func_functions # For Dev Environment (should be avoided in production)
         ports:
-            - 6107:6107
+            - ${PORT}:6107
         environment:
             # Your daily Iot gateway URI
             DAILYIOT: "http://diot-gateway:8080"       
@@ -16,7 +16,7 @@ services:
             DEVICEID: "${DEVICE_ID}"
             # Device address that is reachable from the platform 
             # (change it to device public url when device not in func_functions)
-            DEVICEADDR: "http://${DEVICE_ID}_device-gateway:6107"
+            DEVICEADDR: "http://${DEVICE_ID}_device-gateway:${PORT}"
             # name of the skill that will be deployed
             SKILLS: "[\"switch\"]"
             # The API token that need to be used to authenticate user and used as cookie
@@ -28,7 +28,7 @@ services:
             restart_policy:
                 condition: on-failure
                 delay: 5s
-                max_attempts: 20
+                #max_attempts: 20
                 window: 380s
             placement:
                 constraints:
@@ -68,7 +68,7 @@ services:
             restart_policy:
                 condition: on-failure
                 delay: 5s
-                max_attempts: 20
+                #max_attempts: 20
                 window: 380s
 
     # SKILLS : Skills that will run with the platform 
@@ -91,7 +91,7 @@ services:
             restart_policy:
                 condition: on-failure
                 delay: 5s
-                max_attempts: 20
+                #max_attempts: 20
                 window: 380s
         environment:
             # No of switch provided by the device

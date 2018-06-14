@@ -16,4 +16,4 @@ then
     export dockerfile="Dockerfile"
 fi
 
-docker build -t s8sg/skill-switch-dummy:$eTAG -f ./switch-dummy/$dockerfile ./switch-dummy/ --no-cache
+docker build -t s8sg/skill-switch-dummy:$eTAG -f ./switch-dummy/$dockerfile ./switch-dummy/
