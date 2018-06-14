@@ -20,8 +20,9 @@ bootstraps your dailyiot device stack
    
 ### Getting Started
 
-> For getting started with swarm on Raspberry Pi with raspbian follow the [instructions](https://github.com/dailyiot/diot_device/blob/master/doc/setup_raspberry.md)
-   
+> For getting started with swarm on Raspberry Pi with raspbian follow the [instructions](https://github.com/dailyiot/diot_device/blob/master/doc/setup_raspberry.md)     
+> Alternatively,    
+> You can deploy the dummy implementation locally by running the [dummy skills](https://github.com/dailyiot/skills/blob/master/README.md#dummy)
    
 Define the device unique identifier by editing `deviceid` file 
 ```bash
