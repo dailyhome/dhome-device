@@ -2,28 +2,55 @@
 bootstraps your dailyiot device 
 
 ### Getting Started
+
+> For getting started with swarm on Raspberry Pi with raspbian follow the [instructions](https://github.com/dailyiot/diot_device/blob/master/doc/setup_raspberry.md)
+   
+   
 Define the device unique identifier by editing `deviceid` file 
-```
+```bash
 DEVICEID=MyRasp
 ```
 
 Build Locally (optional)
-```
+```bash
 ./build.sh
 ```
 
 Deploy the device stack
-```
+```bash
 ./deploy.sh
 ```
 
 ### Configuration
 Device stack can be deployed along with daily-iot platform in same swarm cluster otherwise independently   
-It uses same network as of openfaas functions `func_functions` for device-gateway  
+It uses same network as of openfaas functions `func_functions` for device-gateway and create one based on `DEVICEID`
 
-For a independent swarm cluster daily-iot platform address can be defined by changing `docker-compose.yml`
-```
+#### Run on independent swarm cluster
+
+For a independent swarm cluster daily-iot platform address can be defined by changing `docker-compose.yml` file
+```yaml
 DAILYIOT: "http://your-openfaas/function/diot-gateway"
+```
+and 
+and changing the DEVICEADDR to the public address
+```yaml
+DEVICEADDR: "http://<device_public_ip>:6107"
+```
+    
+#### Run multiple device stack in same host
+
+Device stack Creates and Run on a swarm overlay network defined in `deviceid` file
+```bash
+DEVICEID=MyRasp
+```
+You can run multiple device stack in a same host by changing the `DEVICEID` and 
+exposed `port` and `DEVICEADDR` in `docker-compose.yml` file
+```yaml
+ports:
+    - 6207:6107
+```
+```yaml
+DEVICEADDR: "http://${DEVICE_ID}_device-gateway:6207"
 ```
 
 ### Overview of diot_device
