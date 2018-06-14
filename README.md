@@ -6,9 +6,24 @@ Define the device unique identifier by editing `deviceid` file
 ```
 DEVICEID=MyRasp
 ```
+
+Build Locally (optional)
+```
+./build.sh
+```
+
 Deploy the device stack
 ```
 ./deploy.sh
+```
+
+### Configuration
+Device stack can be deployed along with daily-iot platform in same swarm cluster otherwise independently   
+It uses same network as of openfaas functions `func_functions` for device-gateway  
+
+For a independent swarm cluster daily-iot platform address can be defined by changing `docker-compose.yml`
+```
+DAILYIOT: "http://your-openfaas/function/diot-gateway"
 ```
 
 ### Overview of diot_device
