@@ -1,6 +1,23 @@
 # diot_device
-bootstraps your dailyiot device 
+bootstraps your dailyiot device stack
 
+### Overview of diot_device
+1. Register device to the dailyiot platform
+2. Provide gateway to route request to skills and provide health data
+3. Deploy and manages skill on the go
+
+> DailyIOT Device Stack 
+
+    Device platform use swarm for its core
+    FaasSwarm: Manage skill dynamically
+    DeviceGateway: Lightweight and fast http router
+    Skills : Handle Skill Specific Call (run in a priiviledged mode)
+
+<p align="center">
+   <img src="https://farm2.staticflickr.com/1756/40740438330_b4efa720db_o.jpg">
+</p>
+   
+   
 ### Getting Started
 
 > For getting started with swarm on Raspberry Pi with raspbian follow the [instructions](https://github.com/dailyiot/diot_device/blob/master/doc/setup_raspberry.md)
@@ -52,22 +69,6 @@ ports:
 ```yaml
 DEVICEADDR: "http://${DEVICE_ID}_device-gateway:6207"
 ```
-
-### Overview of diot_device
-1. Register device to the dailyiot platform
-2. Provide gateway to route request to skills and provide health data
-3. Deploy and manages skill on the go
-
-> DailyIOT Device Stack 
-
-    Device platform use swarm for its core
-    FaasSwarm: Manage skill dynamically
-    DeviceGateway: Lightweight and fast http router
-    Skills : Handle Skill Specific Call (run in a priiviledged mode)
-
-<p align="center">
-   <img src="https://farm2.staticflickr.com/1756/40740438330_b4efa720db_o.jpg">
-</p>
 
 
 #### TODO
