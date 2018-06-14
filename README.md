@@ -40,8 +40,9 @@ Deploy the device stack
 ```
 
 ### Configuration
-Device stack can be deployed along with daily-iot platform in same swarm cluster otherwise independently   
-It uses same network as of openfaas functions `func_functions` for device-gateway and create a private network based on the `DEVICEID`
+> Device stack can be deployed along with daily-iot platform in same swarm cluster otherwise independently   
+> It uses same network as of openfaas functions `func_functions` for making `device-gateway` accessible from platform    
+> and create a private network based on the `DEVICEID` to independently manage skills
 
 #### Run on independent swarm cluster
 
@@ -58,16 +59,11 @@ DEVICEADDR: "http://<device_public_address>"
     
 #### Run multiple device stack in same host
 
-Device stack Creates and Run on a swarm overlay network based on the `DEVICEID`
+Multiple device stack can be deployed in a same host by changing the `DEVICEID` and exposed `PORT` in the `configuration` file
 ```bash
-DEVICEID=MyRasp2
-```
-You can run multiple device stack in a same host by changing the `DEVICEID` and 
-exposed `PORT` in `configuration` file
-```bash
+DEVICEID=MySecondDevice
 PORT=6207
 ```
-    
     
 #### TODO
 - [X] Implement switch skill
