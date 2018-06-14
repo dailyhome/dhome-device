@@ -21,7 +21,7 @@ var (
 
 type RegistationInfo struct {
 	Method     string   `json:"method"`
-	DeviceID   string   `json:"deviceid"`
+	DeviceID   string   `json:"device"`
 	DeviceAddr string   `json:"deviceaddr"`
 	Skills     []string `json:"skills"`
 }

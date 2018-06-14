@@ -20,7 +20,7 @@ services:
             # name of the skill that will be deployed
             SKILLS: "[\"switch\"]"
             # The API token that need to be used to authenticate user and used as cookie
-            DIOTTOKEN: "Just-because-something-doesnt-do-what-you-planned-it-to-do-doesnt-mean-its-useless"
+            DIOTTOKEN: "just-because-something-doesnt-do-what-you-planned-it-to-do-doesnt-mean-its-useless"
             # URL for fass swarm
             # faas_swarm_url: "http://faas-swarm:8080/"
         deploy:

@@ -21,7 +21,13 @@ func getValue(u *url.URL) string {
 
 func enable(w http.ResponseWriter, r *http.Request) {
 	value := getValue(r.URL)
-	state[value] = true
+	if value == "all" {
+		for socket, _ := range state {
+			state[socket] = true
+		}
+	} else {
+		state[value] = true
+	}
 	data, _ := json.Marshal(state)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(data)
@@ -29,7 +35,13 @@ func enable(w http.ResponseWriter, r *http.Request) {
 
 func disable(w http.ResponseWriter, r *http.Request) {
 	value := getValue(r.URL)
-	state[value] = false
+	if value == "all" {
+		for socket, _ := range state {
+			state[socket] = false
+		}
+	} else {
+		state[value] = false
+	}
 	data, _ := json.Marshal(state)
 	w.Header().Set("Content-Type", "application/json")
 	w.Write(data)
