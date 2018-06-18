@@ -1,5 +1,7 @@
-# diot_device
-bootstraps your dailyiot device stack
+## diot_device - bootstraps your dailyiot device stack
+
+[![Build Status](https://travis-ci.org/dailyiot/diot_device.svg?branch=master)](https://travis-ci.org/dailyiot/diot_device)
+   
 
 ### Overview of diot_device
 1. Register device to the dailyiot platform
