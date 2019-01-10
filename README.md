@@ -1,9 +1,9 @@
-## diot_device - bootstraps your dailyiot device stack
+## dhome-device - bootstraps your daily-home device stack
 
 [![Build Status](https://travis-ci.org/dailyiot/diot_device.svg?branch=master)](https://travis-ci.org/dailyiot/diot_device)
    
 
-### Overview of diot_device
+### Overview of dhome-device
 1. Register device to the dailyiot platform
 2. Provide gateway to route request to skills and provide health data
 3. Deploy and manages skill on the go
@@ -22,7 +22,7 @@
    
 ### Getting Started
 
-> For getting started with swarm on Raspberry Pi with raspbian follow the [instructions](https://github.com/dailyiot/diot_device/blob/master/doc/setup_raspberry.md)     
+> For getting started with swarm on Raspberry Pi with raspbian follow the [instructions](https://github.com/dailyiot/dhome-device/blob/master/doc/setup_raspberry.md)     
 > Alternatively,    
 > You can deploy the dummy implementation locally by running the [dummy skills](https://github.com/dailyiot/skills/blob/master/README.md#dummy)
    
