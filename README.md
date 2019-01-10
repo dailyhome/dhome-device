@@ -8,7 +8,7 @@
 2. Provide gateway to route request to skills and provide health data
 3. Deploy and manages skill on the go
 
-> DailyIOT Device Stack 
+> DailyHOME Device Stack 
 
     Device platform use swarm for its core
     FaasSwarm: Manage skill dynamically
@@ -22,9 +22,9 @@
    
 ### Getting Started
 
-> For getting started with swarm on Raspberry Pi with raspbian follow the [instructions](https://github.com/dailyiot/dhome-device/blob/master/doc/setup_raspberry.md)     
+> For getting started with swarm on Raspberry Pi with raspbian follow the [instructions](https://github.com/dailyhome/dhome-device/blob/master/doc/setup_raspberry.md)     
 > Alternatively,    
-> You can deploy the dummy implementation locally by running the [dummy skills](https://github.com/dailyiot/skills/blob/master/README.md#dummy)
+> You can deploy the dummy implementation locally by running the [dummy skills](https://github.com/dailyhome/skills/blob/master/README.md#dummy)
    
 Define the device unique identifier by editing `configuration` file 
 ```bash
@@ -49,7 +49,7 @@ Deploy the device stack
 #### Run on independent swarm cluster
 
 For a independent swarm cluster daily-iot platform address and device address need to be defined by changing `docker-compose.yml` file:    
-Change the dailyiot gateway address  
+Change the dailyhome gateway address  
 ```yaml
 DAILYIOT: "http://your-openfaas/function/diot-gateway"
 ```
