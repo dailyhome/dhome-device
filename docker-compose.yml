@@ -11,7 +11,7 @@ services:
             - ${PORT}:6107
         environment:
             # Your daily Iot gateway URI
-            DAILYIOT: "http://diot-gateway:8080"       
+            DAILYIOT: "http://dhome-gateway:8080"
             # A global identification for the device (for example sha of the raspberry pi mac)
             DEVICEID: "${DEVICE_ID}"
             # Device address that is reachable from the platform 
